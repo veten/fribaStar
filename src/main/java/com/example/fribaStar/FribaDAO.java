@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class FribaDAO {
 
 	public String getResult(String input) {
-		return input;
+		return "Service works. Got input: " + input;
 	}
 
 }
