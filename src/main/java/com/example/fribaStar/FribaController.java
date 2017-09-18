@@ -13,7 +13,7 @@ public class FribaController {
 	private FribaService service;
 	
 	@CrossOrigin
-	@RequestMapping(value = "/test")	// , consumes = "application/json"
+	@RequestMapping(value = "/test")	// , consumes = "application/json"...
 	public String testRest() {	// @RequestBody String input
 		return service.getResult();
 	}
