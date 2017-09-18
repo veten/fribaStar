@@ -9,8 +9,8 @@ public class FribaService {
 	@Autowired
 	private FribaDAO dao;
 	
-	public String getResult(String input) {
-		return dao.getResult(input);
+	public String getResult() {
+		return dao.getResult();
 	}
 
 	
