@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class FribaControllerAddPlayers {
 
-	@GetMapping("/")
+	@GetMapping("/addPlayers")
 	public String addPlayersForm(Model model)
 	{
 		model.addAttribute("player", new Player());
