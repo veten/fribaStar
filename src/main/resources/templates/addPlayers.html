@@ -4,16 +4,18 @@
     <title>Getting Started: Handling Form Submission</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <body>
 	<h1>Lisää pelaajat</h1>
-    <form id="addPlayerForm" action="#" th:action="@{/addPlayers}" th:object="${player}" method="post">
-    	<p>Pelaaja 1: <input type="text" th:field="*{name}" /></p>
+    <form id="addPlayerForm" action="#" method="post">
+    	<p>Pelaaja 1: <input type="text" /></p>
         <p><input id="addPlayerButton" type="button" value="Lisää" /> <input type="reset" value="Tyhjennä" /></p>
     </form>
 </body>
+
 <script>
 $(function() {
-    $('#addPlayerButton').click(saveForm);
+    $('#addPlayerForm').click(saveForm);
 });
 
 
@@ -23,9 +25,10 @@ function saveForm(){
         url: "/addPlayers",
         data: $('#addPlayerForm').serialize(),
         success: function(status){
-            if(status) {
+           //if(status) {
+            	console.log('Status: ', status);
                 //here you check the response from your controller and add your business logic
-            }
+           //}
         }
     });
 }
