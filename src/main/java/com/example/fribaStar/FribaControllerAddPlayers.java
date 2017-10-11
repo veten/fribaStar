@@ -16,11 +16,11 @@ public class FribaControllerAddPlayers {
 		return "addPlayers";
 	}
 	
-	@PostMapping("/addPlayers")
-	public Player addPlayersSubmit(@ModelAttribute Player player)
-	{
-		System.out.println(player.toString());
-		return player;
-	}
+//	@PostMapping("/addPlayers")
+//	public String addPlayersSubmit(@ModelAttribute Player player)
+//	{
+//		System.out.println(player.toString());
+//		return "addPlayers";
+//	}
 	
 }

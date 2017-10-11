@@ -1,4 +1,5 @@
 <!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Getting Started: Handling Form Submission</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -7,30 +8,49 @@
 <body>
 	<h1>Lisää pelaajat</h1>
     <form id="addPlayerForm" action="#" method="post">
-    	<p>Pelaaja 1: <input type="text" /></p>
+    	<p><div id='player' style="display: inline">Pelaaja 1:</div> <input type="text" /></p>        
         <p><input id="addPlayerButton" type="button" value="Lisää" /> <input type="reset" value="Tyhjennä" /></p>
     </form>
 </body>
-
 <script>
+//Javascript onclick without ajax
+//<p><input id="addPlayerButton" type="button" value="Lisää" onclick="addPlayer()"/> <input type="reset" value="Tyhjennä" /></p>
+
+
 $(function() {
-    $('#addPlayerForm').click(saveForm);
+    $('#addPlayerButton').click(addPlayer);
 });
 
+var i=1;
+
+function addPlayer() 
+{
+	var player = document.querySelector('input').value;
+//	player = 'seppo';
+//	console.log('Pelaaja: ' + player);
+	var newP = document.createElement('p');
+	newP.textContent = 'Pelaaja ' + i + ': ' + player;
+	document.body.appendChild(newP);	
+	
+	i = i + 1;
+	
+	playerText = document.querySelector('#player');
+	playerText.innerHTML = 'Pelaaja ' + i + ':';
+}
 
 function saveForm(){
     $.ajax({
         method: "POST",
-        url: "/addPlayers",
-        data: $('#addPlayerForm').serialize(),
+        url: "/your/action/endpoint",
+        data: $('#idYourForm').serialize(),
         success: function(status){
-           //if(status) {
-            	console.log('Status: ', status);
+            if(status) {
                 //here you check the response from your controller and add your business logic
-           //}
+            }
         }
     });
 }
 </script>
+
 
 </html>
