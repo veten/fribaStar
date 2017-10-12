@@ -22,6 +22,7 @@ $(function() {
 });
 
 var i=1;
+var players = [];
 
 function addPlayer() 
 {
@@ -32,21 +33,37 @@ function addPlayer()
 	newP.textContent = 'Pelaaja ' + i + ': ' + player;
 	document.body.appendChild(newP);	
 	
+	players[i-1] = player;
+	savePlayer(player);
 	i = i + 1;
 	
 	playerText = document.querySelector('#player');
 	playerText.innerHTML = 'Pelaaja ' + i + ':';
 }
 
-function saveForm(){
+function savePlayer(newName){
     $.ajax({
         method: "POST",
-        url: "/your/action/endpoint",
-        data: $('#idYourForm').serialize(),
-        success: function(status){
-            if(status) {
+        url: "/addPlayers",
+        headers: { 
+        	'Accept': 'application/json',
+	       	'Content-Type': 'application/json;charset=UTF-8' 
+    	},
+        datatype: 'json',
+        data: '{"name":"'+newName+'"}',
+        success : function(data, textStatus, jqXHR ){
+//            if(status) {
+				console.log('data: ' + data);
+            	console.log('status: ' + textStatus);
+            	console.log('xhr: ' + jqXHR);
                 //here you check the response from your controller and add your business logic
-            }
+//            }
+        },
+        error : function(a, b, c)
+        {
+        	console.log('xhr: ' + a);
+        	console.log('virhe: ' + b);
+        	console.log('error: ' + c);
         }
     });
 }
