@@ -1,12 +1,21 @@
 package com.example.fribaStar;
 
-import org.springframework.stereotype.Component;
+import java.util.Vector;
 
-@Component
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class FribaDAO {
 
+	Vector<Player> players = new Vector<Player>(4,4);
+	
 	public String getResult() {
 		return "Service works!!!";
 	}
 
+	public void addPlayer(Player newPlayer) throws Exception
+	{
+		players.add(newPlayer);
+	}
+	
 }
