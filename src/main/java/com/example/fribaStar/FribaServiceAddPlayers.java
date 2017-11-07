@@ -1,5 +1,7 @@
 package com.example.fribaStar;
 
+import java.util.Vector;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +26,10 @@ public class FribaServiceAddPlayers {
 			return new ResponseEntity<Player>(newPlayer, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
+	}
+	
+	public ResponseEntity<Vector<Player>> getPlayers()
+	{		
+		return new ResponseEntity<Vector<Player>>(playerRepository.getPlayers(), HttpStatus.OK);
 	}
 }

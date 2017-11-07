@@ -1,5 +1,7 @@
 package com.example.fribaStar;
 
+import java.util.Vector;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,8 +18,8 @@ class FribaControllerAddPlayers {
 	@Autowired
 	FribaServiceAddPlayers service;
 	
-	@GetMapping("/addPlayers")
-	public String addPlayersForm(Model model)
+	@GetMapping("/")
+	public String addPlayersForm()
 	{
 //		model.addAttribute("player", new Player());
 		return "addPlayers";
@@ -29,5 +31,18 @@ class FribaControllerAddPlayers {
 	{	
 		return service.addPlayersSubmit(newPlayer);
 	}
+	
+	@GetMapping("/gamePlay")
+	public String gamePlay(Model model)
+	{
+		return "gamePlay";
+	}
+	
+	@RequestMapping(path = "/getPlayers", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Vector<Player>> getPlayers()	
+	{
+		return service.getPlayers();
+	}
+	
 	
 }

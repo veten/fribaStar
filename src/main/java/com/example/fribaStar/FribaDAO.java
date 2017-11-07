@@ -7,15 +7,24 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class FribaDAO {
 
-	Vector<Player> players = new Vector<Player>(4,4);
+	Vector<Player> players = new Vector<Player>(0,4);
+	
+	public void addPlayer(Player newPlayer) throws Exception
+	{
+		newPlayer.setTotal(0);
+		newPlayer.setHole(0);
+		players.add(newPlayer);
+	}
+	
+	public Vector<Player> getPlayers()
+	{
+			return players;
+	}
 	
 	public String getResult() {
 		return "Service works!!!";
 	}
 
-	public void addPlayer(Player newPlayer) throws Exception
-	{
-		players.add(newPlayer);
-	}
+	
 	
 }

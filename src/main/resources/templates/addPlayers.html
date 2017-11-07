@@ -1,14 +1,15 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <title>Getting Started: Handling Form Submission</title>
+    <title>FribaStar: Add Players</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <body>
+	<input id="startGame" type="button" value="Aloita Peli" />
 	<h1>Lisää pelaajat</h1>
     <form id="addPlayerForm" action="#" method="post">
-    	<p><div id='player' style="display: inline">Pelaaja 1:</div> <input type="text" /></p>        
+    	<p><div id='player' style="display: inline">Pelaaja 1:</div> <input id="playerName" type="text" /></p>        
         <p><input id="addPlayerButton" type="button" value="Lisää" /> <input type="reset" value="Tyhjennä" /></p>
     </form>
 </body>
@@ -16,9 +17,10 @@
 //Javascript onclick without ajax
 //<p><input id="addPlayerButton" type="button" value="Lisää" onclick="addPlayer()"/> <input type="reset" value="Tyhjennä" /></p>
 
-
+//$(document).ready(function(){});
 $(function() {
     $('#addPlayerButton').click(addPlayer);
+    $('#startGame').click(startGame);
 });
 
 var i=1;
@@ -26,7 +28,7 @@ var players = [];
 
 function addPlayer() 
 {
-	var player = document.querySelector('input').value;
+	var player = document.querySelector('#playerName').value;
 //	player = 'seppo';
 //	console.log('Pelaaja: ' + player);
 	var newP = document.createElement('p');
@@ -67,6 +69,23 @@ function savePlayer(newName){
         }
     });
 }
+
+function startGame()
+{
+	var playerCount = 0;
+	//If no players added, show error
+	$.ajax({
+		url: "/getPlayers"
+	}).then(function(data) {
+		playerCount = data.length;
+		
+		if(0 == playerCount)
+			alert('Lisää ny ees yksi pelaaja ensin hei!!');
+		else
+			window.location = "/gamePlay";
+	});			
+}
+
 </script>
 
 
