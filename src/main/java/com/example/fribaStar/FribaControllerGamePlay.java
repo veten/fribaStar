@@ -16,7 +16,7 @@ public class FribaControllerGamePlay {
 	@Autowired
 	FribaServiceGamePlay service;
 	
-	@RequestMapping(path = "/fribaStar/{url:nextHole$}", method = RequestMethod.POST)
+	@RequestMapping(path = "/{url:nextHole$}", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Vector<Player>> nextHole(@RequestBody Vector<Player> players) throws Exception
 	{	
 		return service.nextHole(players);
