@@ -18,7 +18,7 @@ class FribaControllerAddPlayers {
 	@Autowired
 	FribaServiceAddPlayers service;
 	
-	@GetMapping("/")
+	@GetMapping("/fribaStar/")
 	public String addPlayersForm()
 	{
 //		model.addAttribute("player", new Player());
@@ -26,7 +26,7 @@ class FribaControllerAddPlayers {
 	}
 	
 	//@RequestMapping(path = "/addPlayers", produces = "application/json", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
-	@RequestMapping(path = "/{url:addPlayers$}", method = RequestMethod.POST)
+	@RequestMapping(path = "/fribaStar/{url:addPlayers$}", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Player> addPlayersSubmit(@RequestBody Player newPlayer) throws Exception
 	{	
 		return service.addPlayersSubmit(newPlayer);
@@ -34,19 +34,19 @@ class FribaControllerAddPlayers {
 	
 	//The regexp definition catches only url ending to "gameplay".
 	//This allows catching gamePlay.js with another resource handler.
-	@GetMapping("/{url:gamePlay$}")
+	@GetMapping("/fribaStar/{url:gamePlay$}")
 	public String gamePlay()
 	{
 		return "gamePlay";
 	}
 	
-	@RequestMapping(path = "/getPlayers", method = RequestMethod.GET)
+	@RequestMapping(path = "/fribaStar/getPlayers", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Vector<Player>> getPlayers()	
 	{
 		return service.getPlayers();
 	}
 	
-	@RequestMapping(path = "/resetScores", method = RequestMethod.POST)
+	@RequestMapping(path = "/fribaStar/resetScores", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> resetScores()	
 	{
 		return service.resetScores();

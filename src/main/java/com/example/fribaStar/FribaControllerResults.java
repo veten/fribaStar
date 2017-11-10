@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class FribaControllerResults {
 		
-	@GetMapping("/{url:results$}")
+	@GetMapping("/fribaStar/{url:results$}")
 	public String results() {
 		return "results";
 	}

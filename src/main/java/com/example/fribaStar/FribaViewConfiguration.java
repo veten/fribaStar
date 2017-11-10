@@ -20,16 +20,16 @@ public class FribaViewConfiguration extends WebMvcConfigurerAdapter
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {		
 		registry
-			.addResourceHandler("*.js")
+			.addResourceHandler("/fribaStar/*.js")
 			.addResourceLocations("classpath:/static/js/src/","classpath:/static/js/lib/");
 		registry
-			.addResourceHandler("*.html")
+			.addResourceHandler("/fribaStar/*.html")
 			.addResourceLocations("classpath:/static/html/");						
 	}
 			
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
-		registry.jsp(" ", ".html");        	        
+		registry.jsp("/fribaStar/", ".html");        	        
     }	
 	
 	

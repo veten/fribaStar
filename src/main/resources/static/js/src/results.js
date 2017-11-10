@@ -6,7 +6,7 @@ $(function(){
 function initialisePage()
 {
 	$.ajax({
-		url:'/getPlayers'
+		url:'/fribaStar/getPlayers'
 	}).then(function(players){
 		processData(players);
 	});
@@ -94,5 +94,5 @@ function getHoleResultLine(i, players)
 
 function onClickStartGame()
 {
-	window.location = "/";
+	window.location = "/fribaStar/";
 }
