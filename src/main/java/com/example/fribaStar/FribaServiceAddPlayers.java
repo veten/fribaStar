@@ -32,4 +32,16 @@ public class FribaServiceAddPlayers {
 	{		
 		return new ResponseEntity<Vector<Player>>(playerRepository.getPlayers(), HttpStatus.OK);
 	}
+	
+	public ResponseEntity<String> resetScores()
+	{
+		try {
+			playerRepository.resetScores();
+			return new ResponseEntity<String>("OK", HttpStatus.OK);
+		} catch (Exception e)
+		{
+			return new ResponseEntity<String>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+	}
 }

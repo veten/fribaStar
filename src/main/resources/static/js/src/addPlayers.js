@@ -2,13 +2,45 @@
 //<p><input id="addPlayerButton" type="button" value="Lisää" onclick="addPlayer()"/> <input type="reset" value="Tyhjennä" /></p>
 
 //$(document).ready(function(){});
+var i=1;
+var players = [];
+
 $(function() {
+	loadPlayers();
     $('#addPlayerButton').click(addPlayer);
     $('#startGame').click(startGame);
 });
 
-var i=1;
-var players = [];
+//This function synchronises view with the data available at backend
+//The function also resets the player scores to cater for a new round with same players
+function loadPlayers()
+{
+	var j;
+	
+	$.ajax({
+		url: '/getPlayers'
+	}).then(function(players){
+		if(0 != players.length)
+		{
+			//Reset player scores
+			$.ajax({
+				method: 'POST',
+				url: '/resetScores'
+			});
+			
+			//Add player texts on screen
+			for(j=0;j<players.length;j++)
+				$('body').append('<p>Pelaaja ' + (j+1) + ': ' + players[j].name);
+			
+			//Update input label
+			$('div#player').html('Pelaaja ' + (j+1) + ':');
+			i = j+1;
+		}
+	});
+}
+
+
+
 
 function addPlayer() 
 {
@@ -39,15 +71,18 @@ function savePlayer(newName){
         data: '{"name":"'+newName+'"}',
         success : function(data, textStatus, jqXHR ){
 //            if(status) {
-				console.log('data: ' + data);
+				console.log('data: ');
+				console.dir(data);
             	console.log('status: ' + textStatus);
-            	console.log('xhr: ' + jqXHR);
+            	console.log('xhr: ');
+            	console.dir(jqXHR);
                 //here you check the response from your controller and add your business logic
 //            }
         },
         error : function(a, b, c)
         {
         	console.log('xhr: ' + a);
+        	console.dir(a);
         	console.log('virhe: ' + b);
         	console.log('error: ' + c);
         }
