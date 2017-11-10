@@ -18,14 +18,14 @@ function loadPlayers()
 	var j;
 	
 	$.ajax({
-		url: '/getPlayers'
+		url: 'getPlayers'
 	}).then(function(players){
 		if(0 != players.length)
 		{
 			//Reset player scores
 			$.ajax({
 				method: 'POST',
-				url: '/resetScores'
+				url: 'resetScores'
 			});
 			
 			//Add player texts on screen
@@ -62,7 +62,7 @@ function addPlayer()
 function savePlayer(newName){
     $.ajax({
         method: "POST",
-        url: "/addPlayers",
+        url: "addPlayers",
         headers: { 
         	'Accept': 'application/json',
 	       	'Content-Type': 'application/json;charset=UTF-8' 
@@ -94,13 +94,13 @@ function startGame()
 	var playerCount = 0;
 	//If no players added, show error
 	$.ajax({
-		url: "/getPlayers"
+		url: "getPlayers"
 	}).then(function(data) {
 		playerCount = data.length;
 		
 		if(0 == playerCount)
 			alert('Lisää ny ees yksi pelaaja ensin hei!!');
 		else
-			window.location = "/gamePlay";
+			window.location = "gamePlay";
 	});			
 }
