@@ -94,5 +94,5 @@ function getHoleResultLine(i, players)
 
 function onClickStartGame()
 {
-	window.location = window.location.origin;
+	window.location = window.location.href.substr(0, window.location.href.lastIndexOf('/') + 1);
 }
