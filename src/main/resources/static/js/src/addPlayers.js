@@ -1,19 +1,3 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <title>FribaStar: Add Players</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<body>
-	<input id="startGame" type="button" value="Aloita Peli" />
-	<h1>Lisää pelaajat</h1>
-    <form id="addPlayerForm" action="#" method="post">
-    	<p><div id='player' style="display: inline">Pelaaja 1:</div> <input id="playerName" type="text" /></p>        
-        <p><input id="addPlayerButton" type="button" value="Lisää" /> <input type="reset" value="Tyhjennä" /></p>
-    </form>
-</body>
-<script>
 //Javascript onclick without ajax
 //<p><input id="addPlayerButton" type="button" value="Lisää" onclick="addPlayer()"/> <input type="reset" value="Tyhjennä" /></p>
 
@@ -85,8 +69,3 @@ function startGame()
 			window.location = "/gamePlay";
 	});			
 }
-
-</script>
-
-
-</html>

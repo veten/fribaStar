@@ -26,14 +26,16 @@ class FribaControllerAddPlayers {
 	}
 	
 	//@RequestMapping(path = "/addPlayers", produces = "application/json", method = RequestMethod.POST, consumes=MediaType.APPLICATION_JSON_VALUE)
-	@RequestMapping(path = "/addPlayers", method = RequestMethod.POST)
+	@RequestMapping(path = "/{url:addPlayers$}", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<Player> addPlayersSubmit(@RequestBody Player newPlayer) throws Exception
 	{	
 		return service.addPlayersSubmit(newPlayer);
 	}
 	
-	@GetMapping("/gamePlay")
-	public String gamePlay(Model model)
+	//The regexp definition catches only url ending to "gameplay".
+	//This allows catching gamePlay.js with another resource handler.
+	@GetMapping("/{url:gamePlay$}")
+	public String gamePlay()
 	{
 		return "gamePlay";
 	}
