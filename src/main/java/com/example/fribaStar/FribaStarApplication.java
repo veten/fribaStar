@@ -26,10 +26,10 @@ public class FribaStarApplication extends SpringBootServletInitializer {
 	
 	//Commented out because I do not understand what this does and everything seems
 	//to still work. -- Seppo
-//	@Override
-//	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-//		return application.sources(FribaStarApplication.class);
-//	}
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(FribaStarApplication.class);
+	}
 	
 	public static void main(String[] args) {
 		SpringApplication.run(FribaStarApplication.class, args);

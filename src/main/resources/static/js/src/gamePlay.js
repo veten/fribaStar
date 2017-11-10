@@ -14,7 +14,7 @@ $(function() {
 function getPlayerData()
 {	
 	$.ajax({
-		url: "/fribaStar/getPlayers"
+		url: "getPlayers"
 		}).then(function(players){
 			preparePage(players);
 		}
@@ -97,7 +97,7 @@ function onClickEndGame()
 {
 	$.ajax({
 		method: "POST",
-        url: "/fribaStar/nextHole",
+        url: "nextHole",
         headers: { 
         	'Accept': 'application/json',
 	       	'Content-Type': 'application/json;charset=UTF-8' 
@@ -105,7 +105,7 @@ function onClickEndGame()
         datatype: 'json',
         data: JSON.stringify(fribaPlayers),
 	}).then(function(players){
-		window.location = "/fribaStar/results"
+		window.location = "results"
 	});
 }
 
@@ -113,7 +113,7 @@ function onClickNextHole()
 {
 	$.ajax({
 		method: "POST",
-        url: "/fribaStar/nextHole",
+        url: "nextHole",
         headers: { 
         	'Accept': 'application/json',
 	       	'Content-Type': 'application/json;charset=UTF-8' 
