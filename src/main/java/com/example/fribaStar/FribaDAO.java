@@ -29,6 +29,33 @@ public class FribaDAO {
 		players.add(newPlayer);
 	}
 	
+	public Vector<Player> getPlayers()
+	{
+			return players;
+	}
+	
+	public String getResult() {
+		return "Service works!!!";
+	}
+	
+	public void resetPlayers()
+	{
+		players = new Vector<Player>(0,4);
+	}
+	
+	public void resetScores() throws Exception
+	{
+		Player player = null;
+		
+		for(Iterator<Player> players = this.players.iterator(); players.hasNext();) 
+		{
+			player = players.next();			
+			player.setHoles(new Vector<Integer>(0,1));
+			player.addHole(0);			
+			player.setTotal(0);
+		}
+	}
+	
 	public void setHoles(Vector<Player> players)
 	{
 		Iterator<Player> newPlayers = null;
@@ -55,29 +82,6 @@ public class FribaDAO {
 			oldPlayer = oldPlayers.next();
 			oldPlayer.setTotal(newPlayer.getTotal());
 		}				
-	}
-	
-	public Vector<Player> getPlayers()
-	{
-			return players;
-	}
-	
-	public String getResult() {
-		return "Service works!!!";
-	}
-
-	public void resetScores() throws Exception
-	{
-		Player player = null;
-		
-		for(Iterator<Player> players = this.players.iterator(); players.hasNext();) 
-		{
-			player = players.next();			
-			player.setHoles(new Vector<Integer>(0,1));
-			player.addHole(0);			
-			player.setTotal(0);
-		}
-	}
-	
+	}	
 	
 }

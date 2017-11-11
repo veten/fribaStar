@@ -7,8 +7,10 @@ var players = [];
 
 $(function() {
 	loadPlayers();
+	$('input#resetPlayers').on('click', resetPlayers);
     $('#addPlayerButton').click(addPlayer);
     $('#startGame').click(startGame);
+    $('input#playerName').on("keypress", onKeypressInput)
 });
 
 //This function synchronises view with the data available at backend
@@ -30,7 +32,8 @@ function loadPlayers()
 			
 			//Add player texts on screen
 			for(j=0;j<players.length;j++)
-				$('body').append('<p>Pelaaja ' + (j+1) + ': ' + players[j].name);
+				//$('body').append('<p>Pelaaja ' + (j+1) + ': ' + players[j].name);
+				addPlayerParagraph(players[j].name);
 			
 			//Update input label
 			$('div#player').html('Pelaaja ' + (j+1) + ':');
@@ -47,16 +50,37 @@ function addPlayer()
 	var player = document.querySelector('#playerName').value;
 //	player = 'seppo';
 //	console.log('Pelaaja: ' + player);
-	var newP = document.createElement('p');
-	newP.textContent = 'Pelaaja ' + i + ': ' + player;
-	document.body.appendChild(newP);	
+	addPlayerParagraph(player);
+//	document.body.appendChild(newP);	
 	
 	players[i-1] = player;
 	savePlayer(player);
-	i = i + 1;
 	
 	playerText = document.querySelector('#player');
 	playerText.innerHTML = 'Pelaaja ' + i + ':';
+}
+
+function addPlayerParagraph(playerName)
+{
+	var newP = $(document.createElement('p')).addClass('player');
+	newP.html('Pelaaja ' + i + ': ' + playerName);
+	$('body').append(newP);
+	
+	//Clear also the name input field
+	$('input#playerName').val("").focus();
+	
+	i = i + 1;
+}
+
+function onKeypressInput(event){
+	//Trigger playerAdd on enter press and prevent default enter handling
+	if(13 == event.which)
+	{
+		event.preventDefault();
+		addPlayer();
+	}
+		
+	
 }
 
 function savePlayer(newName){
@@ -87,6 +111,24 @@ function savePlayer(newName){
         	console.log('error: ' + c);
         }
     });
+}
+
+function resetPlayers()
+{
+	if(true == confirm('Really remove all the players?'))
+	{
+		$.ajax({
+			method: "POST",
+			url: 'resetPlayers'
+		}).then(function(){
+			//Remove Pelaaja-texts from the view
+			$('p.player').remove();
+			//Update input label
+			i=1;
+			$('div#player').html('Pelaaja ' + i + ':');
+		})
+		
+	}
 }
 
 function startGame()

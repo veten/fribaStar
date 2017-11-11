@@ -46,6 +46,12 @@ class FribaControllerAddPlayers {
 		return service.getPlayers();
 	}
 	
+	@RequestMapping(path = "/resetPlayers", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> resetPlayers()	
+	{
+		return service.resetPlayers();
+	}
+	
 	@RequestMapping(path = "/resetScores", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> resetScores()	
 	{
