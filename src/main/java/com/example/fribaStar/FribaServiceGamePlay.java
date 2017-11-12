@@ -26,7 +26,7 @@ public class FribaServiceGamePlay {
 		}
 		catch(Exception e)
 		{
-			return new ResponseEntity<Vector<Player>>(players, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Vector<Player>>(playerRepository.getPlayers(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

@@ -3,10 +3,13 @@ const fribaClassAdd = "add";
 const fribaClassSubtract = "subtract";
 var fribaCurrentHole;
 var fribaPlayers;
+var fribaPar;
 
 $(function() {
 	$('input#nextHole').on("click", onClickNextHole);
-	$('input#endGame').on("click", onClickEndGame)
+	$('input#endGame').on("click", onClickEndGame);
+	$('input#parSubtract').on("click", onClickParSubtract);
+	$('input#parAdd').on("click", onClickParAdd);
 	getPlayerData();		
 });
 
@@ -25,6 +28,7 @@ function preparePage(players)
 {
 	fribaPlayers = players;
 	updateCurrentHole();
+	updatePar();
 	getPlayerTable(players);
 	setScoreButtonEventListeners(fribaClassAdd, "click");
 	setScoreButtonEventListeners(fribaClassSubtract, "click");
@@ -50,8 +54,9 @@ function getPlayerLine(players, i)
 	return ' \
 	<tr> \
 		<td class="name">' + players[i].name + '</td> \
-		<td class="total">' + players[i].total + '</td> \
-		<td class="hole">' + players[i].holes[fribaCurrentHole-1] + '</td> \
+		<td id="total' + i + '" class="total">' + players[i].total + '</td> \
+		<td id="totalPar' + i + '" class="totalPar">' + players[i].totalPar + '</td> \
+		<td class="hole">' + players[i].holes[fribaCurrentHole-1].score + '</td> \
 		<td><input id="' + fribaClassSubtract + i + '" class="' + fribaClassSubtract + '" type="button" value="-" /></td> \
 		<td><input id="' + fribaClassAdd + i + '" class="' + fribaClassAdd + '" type="button" value="+" /></td> \
 	</tr> \
@@ -76,17 +81,17 @@ function onClickScoreButton(event)
 	switch(elem.attr("class"))
 	{
 	case fribaClassSubtract:
-		fribaPlayers[index].holes[fribaCurrentHole-1]--;
-		fribaPlayers[index].total--;
+		fribaPlayers[index].holes[fribaCurrentHole-1].score--;
+//		fribaPlayers[index].total--;
 		break;
 	case fribaClassAdd:
-		fribaPlayers[index].holes[fribaCurrentHole-1]++;
-		fribaPlayers[index].total++;
+		fribaPlayers[index].holes[fribaCurrentHole-1].score++;
+//		fribaPlayers[index].total++;
 		break;	
 	}
 	
-	elem.closest('td').siblings('.hole').html(fribaPlayers[index].holes[fribaCurrentHole-1]);
-	elem.closest('td').siblings('.total').html(fribaPlayers[index].total);
+	elem.closest('td').siblings('.hole').html(fribaPlayers[index].holes[fribaCurrentHole-1].score);
+//	elem.closest('td').siblings('.total').html(fribaPlayers[index].total);
 	
 //	console.log(fribaPlayers[index].hole);
 //	console.log(fribaPlayers[index].total);
@@ -95,6 +100,7 @@ function onClickScoreButton(event)
 
 function onClickEndGame()
 {
+	updatePlayerParScores(fribaPlayers);
 	$.ajax({
 		method: "POST",
         url: "nextHole",
@@ -111,6 +117,7 @@ function onClickEndGame()
 
 function onClickNextHole()
 {
+	updatePlayerParScores(fribaPlayers);
 	$.ajax({
 		method: "POST",
         url: "nextHole",
@@ -127,6 +134,22 @@ function onClickNextHole()
 	
 }
 
+function onClickParAdd(event)
+{
+	var value = $('div#holePar').html();
+	
+	fribaPar = fribaPar + 1;
+	$('div#holePar').html(fribaPar);
+}
+
+function onClickParSubtract(event)
+{
+	var value = $('div#holePar').html();
+	
+	fribaPar = fribaPar -1;
+	$('div#holePar').html(fribaPar);
+}
+
 function resetHoleScores()
 {
 	$('td.hole').html("0");
@@ -135,12 +158,45 @@ function resetHoleScores()
 function updateCurrentHole()
 {
 	fribaCurrentHole = fribaPlayers[0].holes.length;
-	$('th.hole').html("Väylä " + fribaCurrentHole + ".");
+	$('div.holeName').html("Väylä " + fribaCurrentHole + ".");
 }
 
 function updatePageToNextHole(players)
 {
 	fribaPlayers = players;
 	updateCurrentHole();
+	updatePar();
+	updateTotals();
 	resetHoleScores();
+}
+
+function updatePar()
+{
+	fribaPar = 3;
+	$('div#holePar').html("3");
+}
+
+function updatePlayerParScores(players)
+{
+	var i;
+	
+	for(i=0;i<players.length;i++)
+	{
+		players[i].holes[fribaCurrentHole-1].par = fribaPar;
+		players[i].holes[fribaCurrentHole-1].scorePar = 
+			players[i].holes[fribaCurrentHole-1].score - fribaPar;
+		players[i].total = players[i].total + players[i].holes[fribaCurrentHole-1].score;
+		players[i].totalPar = 
+			players[i].totalPar + players[i].holes[fribaCurrentHole-1].scorePar;		
+	}
+}
+
+function updateTotals()
+{
+	var i;
+	for(i=0;i<fribaPlayers.length;i++)
+	{
+		$('td#total'+i).html(fribaPlayers[i].total);
+		$('td#totalPar'+i).html(fribaPlayers[i].totalPar);
+	}
 }

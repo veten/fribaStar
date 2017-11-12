@@ -43,6 +43,7 @@ function getResultLine(i, player)
 				<td>' + (i+1) + '.</td> \
 				<td>' + player.name + '</td> \
 				<td>' + player.total + '</td> \
+				<td>' + player.totalPar + '</td> \
 			</tr>'				
 }
 
@@ -58,7 +59,7 @@ function initialiseHoleResultsTableHeader(players)
 
 function getHeaderCell(player)
 {
-	return '<th>' + player.name + '</th>'
+	return '<th>' + player.name + '</th><th>(Par)</th>'
 }
 
 function buildHoleResultsTable(players)
@@ -80,11 +81,17 @@ function getHoleResultLine(i, players)
 	var holeResultLine;
 	
 	//Aloita rivi ja lisää väylänumero
-	holeResultLine = '<tr><td>' + (i+1) + '.</td>'
+	holeResultLine = '<tr><td>' + (i+1) + '.</td>';
 	
-	//lisää riville kunkin pelaajaan tulos
+	//Lisää väylän par
+	holeResultLine = holeResultLine + '<td>' + players[0].holes[i].par + '</td>';
+	
+	//lisää riville kunkin pelaajaan tulos ja par-tulos
 	for(j=0;j<players.length;j++)
-		holeResultLine = holeResultLine + '<td>' + players[j].holes[i] + '</td>'
+	{
+		holeResultLine = holeResultLine + '<td>' + players[j].holes[i].score + '</td>';
+		holeResultLine = holeResultLine + '<td>' + players[j].holes[i].scorePar + '</td>';
+	}
 		
 	//Lopeta rivi
 	holeResultLine = holeResultLine + '</tr>'

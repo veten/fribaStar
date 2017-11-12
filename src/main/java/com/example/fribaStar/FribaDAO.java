@@ -50,9 +50,10 @@ public class FribaDAO {
 		for(Iterator<Player> players = this.players.iterator(); players.hasNext();) 
 		{
 			player = players.next();			
-			player.setHoles(new Vector<Integer>(0,1));
+			player.setHoles(new Vector<Hole>(0,1));
 			player.addHole(0);			
 			player.setTotal(0);
+			player.setTotalPar(0);
 		}
 	}
 	
@@ -81,6 +82,7 @@ public class FribaDAO {
 			newPlayer = newPlayers.next();
 			oldPlayer = oldPlayers.next();
 			oldPlayer.setTotal(newPlayer.getTotal());
+			oldPlayer.setTotalPar(newPlayer.getTotalPar());
 		}				
 	}	
 	

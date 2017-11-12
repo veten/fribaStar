@@ -10,14 +10,23 @@
 	
 </head>
 <body>
+	<p>
 	<input id="endGame" type="button" value="Lopeta Peli" />
 	<input id="nextHole" type="button" value="Seuraava väylä" />
+	</p>
+	<p>
+		<div class="holeName" style="display:inline">Väylä 1</div> - 
+		PAR: <div id=holePar style="display:inline">3</div>
+		<input id=parSubtract class=buttonPar type=button value="-"/>
+		<input id=parAdd class=buttonPar type=button value="+"/>
+	</p>
 	<table>
 		<thead>
 			<tr>
 				<th class="name">Pelaaja</th>
 				<th class="total">Yht.</th>
-				<th class="hole">Väylä 1</th>				
+				<th class="totalPar">Yht. (Par)</th>
+				<th class="hole">Tulos</th>				
 			</tr>
 		</thead>
 		<tbody>
