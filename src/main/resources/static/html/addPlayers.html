@@ -4,16 +4,22 @@
     <title>FribaStar: Add Players</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>	
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 	<script src="addPlayers.js"></script>
 </head>
 <body>
-	<input id="resetPlayers" type=button value="Poista Pelaajat"/>
-	<input id="startGame" type="button" value="Aloita Peli" />
-	<h1>Lisää pelaajat</h1>
-    <form id="addPlayerForm" action="#" method="post">
-    	<p><div id='player' style="display: inline">Pelaaja 1:</div> <input id="playerName" type="text" /></p>        
-        <p><input id="addPlayerButton" type="button" value="Lisää" /> <input type="reset" value="Tyhjennä" /></p>
-    </form>
+<!-- 	<input id="resetPlayers" type=button value="Poista Pelaajat"/> -->
+<!-- 	<input id="startGame" type="button" value="Aloita Peli" /> -->
+<!-- 	<h1>Lisää pelaajat</h1> -->
+<!--     <form id="addPlayerForm" action="#" method="post"> -->
+<!--     	<p><div id='player' style="display: inline">Pelaaja 1:</div> <input id="playerName" type="text" /></p>         -->
+<!--         <p><input id="addPlayerButton" type="button" value="Lisää" /> <input type="reset" value="Tyhjennä" /></p> -->
+<!--     </form> -->
+	<div id="content"></div>
+	<script type="text/babel" src="addPlayers.js"></script>
+
 </body>
 
 </html>
