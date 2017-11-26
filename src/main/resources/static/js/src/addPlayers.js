@@ -1,51 +1,118 @@
-class ButtonResetPlayers extends React.Component {
-	render() {
-		return (
-//				<b>ResetButton</b>
-				<button className="button" onClick={() => alert('reset')}>
-		        Poista Pelaajat
-		        </button>
-		)
-	}
-}
-
-
-class ButtonStartGame extends React.Component {
-	render() {
-		return (
-				<button className="button" onClick={() => alert('start')}>
-		        Aloita Peli
-		        </button>
-		)
-	}
-}
-
 class NavButtons extends React.Component {
-	render() {
+    render() {
 		return (
-				<div>
-				<ButtonResetPlayers />
-				<ButtonStartGame />
-				</div>
+			<div>
+			<button className="button" onClick={() => alert('reset')}>
+	            Poista Pelaajat
+	        </button>
+	        <button className="button" onClick={() => alert('start')}>
+	            Aloita Peli
+	        </button>
+			</div>
 		);
 	}
+}
+
+class AddPlayerForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {"value" : ''};
+        
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    handleChange(event) {
+        this.setState({"value" : event.target.value});
+    }
+    
+    handleSubmit(event) {
+        event.preventDefault();
+        if('' != this.state.value) {
+            this.props.handleSubmit(this.state.value);            
+            this.setState({"value" : ''});
+        }
+    }
+    
+    render() { 
+        const styleInline = {
+                display : "inline"
+        };
+        
+        return (
+        <form onSubmit={this.handleSubmit}>
+            <label>
+                Pelaaja <div id="playerNumber" style={styleInline} >
+                    {this.props.i}                
+                </div>. : 
+                <input type="text" value={this.state.value} onChange={this.handleChange} />
+            </label>
+            <div>
+                <input type="submit" value="Uusi Pelaaja" />  
+                <input type="reset" value="Tyhjennä Nimi" /> 
+            </div>
+            </form>
+        );    
+    }
+}
+
+class Player extends React.Component {
+    render() {
+        return(
+                <p>Pelaaja {this.props.index}.: {this.props.value}</p>                
+        );
+    }
+}
+
+class PlayerPane extends React.Component {
+    
+    constructor (props) {
+        super(props);
+        this.state = {"players" : []};
+    }
+    
+    getPlayerList(players) {
+        return players.map((player, index) =>
+                <Player key={index.toString()} 
+                        index={index+1} 
+                        value={player} />
+        );
+    }
+    
+    handleSubmit(name) {
+        let players = this.state.players.slice();
+        players.push(name);
+        this.setState({"players" : players});
+    }
+    
+    render() {
+        const playerList = this.getPlayerList(this.state.players);        
+        return (
+          <div>
+              <AddPlayerForm handleSubmit={this.handleSubmit.bind(this)}
+                  i={this.state.players.length+1}/>
+              {playerList}
+          </div>          
+        );
+        
+    }
 }
 
 class AddPlayers extends React.Component {
 	render() {
 		return (
-				<NavButtons />
-//				<AddPlayerForm />
-//				<h1>Hello, world!</h1>
+		<div>
+			<NavButtons />
+			<PlayerPane />
+		</div>
 		);		
 	}	
 }
 
 
 ReactDOM.render(
-		<AddPlayers />,
-        document.getElementById('content')
-//  document.getElementById('content').innerHTML = "<h1>Hello, world!</h1>";
+	<AddPlayers />,
+    document.getElementById('content')
 );
 
 
