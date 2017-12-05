@@ -1,39 +1,42 @@
-class NavButtons extends React.Component {
-    render() {
-		return (
-			<div>
-			<button className="button" onClick={() => alert('reset')}>
-	            Poista Pelaajat
-	        </button>
-	        <button className="button" onClick={() => alert('start')}>
-	            Aloita Peli
-	        </button>
-			</div>
-		);
-	}
-}
+//class NavButtons extends React.Component {
+//    render() {
+//        
+//        // TODO: IMPLEMENT BUTTONS
+//		return (
+//			<div>
+//			<button className="button" onClick={() => alert('reset')}>
+//	            Poista Pelaajat
+//	        </button>
+//	        <button className="button" onClick={() => alert('start')}>
+//	            Aloita Peli
+//	        </button>
+//			</div>
+//		);
+//	}
+//}
 
 class AddPlayerForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {"value" : ''};
+        this.state = {"name" : ''};
         
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     
     handleChange(event) {
-        this.setState({"value" : event.target.value});
+        this.setState({"name" : event.target.value});
     }
     
     handleSubmit(event) {
         event.preventDefault();
-        if('' != this.state.value) {
-            this.props.handleSubmit(this.state.value);            
-            this.setState({"value" : ''});
+        if('' != this.state.name) {
+            this.props.handleSubmit(this.state.name);            
+            this.setState({"name" : ''});
         }
     }
     
+    //TODO: FIX RESET
     render() { 
         const styleInline = {
                 display : "inline"
@@ -45,7 +48,7 @@ class AddPlayerForm extends React.Component {
                 Pelaaja <div id="playerNumber" style={styleInline} >
                     {this.props.i}                
                 </div>. : 
-                <input type="text" value={this.state.value} onChange={this.handleChange} />
+                <input type="text" value={this.state.name} onChange={this.handleChange} />
             </label>
             <div>
                 <input type="submit" value="Uusi Pelaaja" />  
@@ -69,26 +72,103 @@ class PlayerPane extends React.Component {
     constructor (props) {
         super(props);
         this.state = {"players" : []};
+        
+        this.handleResetPlayers = this.handleResetPlayers.bind(this);
     }
     
+    componentDidMount() {        
+        fetch("getPlayers")
+        .then(
+            (response) => {
+                return response.json();
+            }).then((json) => {
+                console.dir(json);
+                this.setState({"players" : json});
+                }                
+            )
+    }
+
+
+    
     getPlayerList(players) {
+//        console.dir(players);
         return players.map((player, index) =>
                 <Player key={index.toString()} 
                         index={index+1} 
-                        value={player} />
+                        value={player.name} />
         );
+    }
+    
+    handleResetPlayers(event)
+    {
+        if(true == confirm('Poistetaanko todella kaikki pelaajat?'))
+        {
+            fetch("resetPlayers",
+                    {
+                        method: "POST"
+                    }
+            )
+            .then(
+                  (result) => {
+                      //TODO: Mieti tämä ja testaa
+                      
+                      console.dir(result);
+                      this.setState({"players" : []});
+                  },
+                  (error) => {
+                      //TODO: Mieti tämä ja testaa
+                      
+                      console.dir(error);              
+                  }
+            );
+        }
     }
     
     handleSubmit(name) {
         let players = this.state.players.slice();
-        players.push(name);
+        players.push({"name" : name});
         this.setState({"players" : players});
+        fetch("addPlayers",
+                {
+                  method: "POST",
+                  headers: { 
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json;charset=UTF-8' 
+                  },
+//                body: '{"name":"' + name + '"}'
+                  body: JSON.stringify(players[players.length-1])
+                })        
+            .then(
+              (result) => {
+                  //TODO: Mieti tämä ja testaa
+                  
+                  console.dir(result);              
+              },
+              (error) => {
+                  //TODO: Mieti tämä ja testaa
+                  
+                  console.dir(error);              
+              }
+        )
     }
+    
+//    componentDidMount() {
+//        
+//      }
+    
     
     render() {
         const playerList = this.getPlayerList(this.state.players);        
         return (
           <div>
+              <div>
+                <button className="button" onClick={this.handleResetPlayers}>
+                    Poista Pelaajat
+                </button>
+                <button className="button" onClick={() => alert('start')}>
+                    Aloita Peli
+                </button>
+              </div>
               <AddPlayerForm handleSubmit={this.handleSubmit.bind(this)}
                   i={this.state.players.length+1}/>
               {playerList}
@@ -100,9 +180,12 @@ class PlayerPane extends React.Component {
 
 class AddPlayers extends React.Component {
 	render() {
+	    
+//	    <NavButtons />
+	    
 		return (
 		<div>
-			<NavButtons />
+			
 			<PlayerPane />
 		</div>
 		);		
