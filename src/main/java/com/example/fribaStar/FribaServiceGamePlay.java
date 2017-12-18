@@ -19,7 +19,7 @@ public class FribaServiceGamePlay {
 		try
 		{
 			playerRepository.setHoles(players);
-			playerRepository.addHoles();
+//			playerRepository.addHoles();
 			playerRepository.setTotal(players);
 			
 			return new ResponseEntity<Vector<Player>>(playerRepository.getPlayers(), HttpStatus.OK);

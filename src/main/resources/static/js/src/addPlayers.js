@@ -1,3 +1,4 @@
+//import './gamePlay.js';
 //class NavButtons extends React.Component {
 //    render() {
 //        
@@ -14,6 +15,8 @@
 //		);
 //	}
 //}
+
+
 
 class AddPlayerForm extends React.Component {
     constructor(props) {
@@ -71,32 +74,36 @@ class PlayerPane extends React.Component {
     
     constructor (props) {
         super(props);
-        this.state = {"players" : []};
+        this.state = {"players" : [],
+                      "playerList" : ""};
         
         this.handleResetPlayers = this.handleResetPlayers.bind(this);
-    }
+        this.handleStartGame = this.handleStartGame.bind(this);
+    }    
     
-    componentDidMount() {        
+    componentWillMount() {
+        console.log('fetched players');
         fetch("getPlayers")
         .then(
             (response) => {
                 return response.json();
-            }).then((json) => {
-                console.dir(json);
-                this.setState({"players" : json});
+            }).then((json) => { 
+//                console.dir(json);
+                this.updatePlayerState(json);
+//                this.setState({"players" : json});
                 }                
             )
     }
-
-
     
     getPlayerList(players) {
 //        console.dir(players);
-        return players.map((player, index) =>
-                <Player key={index.toString()} 
-                        index={index+1} 
-                        value={player.name} />
-        );
+        var playerList = players.map((player, index) =>
+                                <Player key={index.toString()} 
+                                index={index+1} 
+                                value={player.name} />
+                        );
+        console.dir(playerList);
+        return playerList;
     }
     
     handleResetPlayers(event)
@@ -112,8 +119,8 @@ class PlayerPane extends React.Component {
                   (result) => {
                       //TODO: Mieti tämä ja testaa
                       
-                      console.dir(result);
-                      this.setState({"players" : []});
+                      console.dir(result);              
+                      this.updatePlayerState([]);
                   },
                   (error) => {
                       //TODO: Mieti tämä ja testaa
@@ -124,10 +131,23 @@ class PlayerPane extends React.Component {
         }
     }
     
+    handleStartGame(event) {        
+        if(0 == this.state.players.length) 
+            alert("Lisää nyt ensin edes yksi pelaaja, hei!");
+        else {
+//            ReactDOM.unmountComponentAtNode(document.getElementById('content'));
+            ReactDOM.render(
+              <GamePlay />,
+              document.getElementById('content')
+            );
+        }
+                
+    }
+    
     handleSubmit(name) {
         let players = this.state.players.slice();
-        players.push({"name" : name});
-        this.setState({"players" : players});
+        let newPlayer = {"name" : name};
+//        this.updatePlayerState(players);
         fetch("addPlayers",
                 {
                   method: "POST",
@@ -136,42 +156,52 @@ class PlayerPane extends React.Component {
                     'Content-Type': 'application/json;charset=UTF-8' 
                   },
 //                body: '{"name":"' + name + '"}'
-                  body: JSON.stringify(players[players.length-1])
+                  body: JSON.stringify(newPlayer)
                 })        
             .then(
               (result) => {
                   //TODO: Mieti tämä ja testaa
                   
-                  console.dir(result);              
+                  //console.dir(result);
+                  return result.json();
+                                
               },
               (error) => {
                   //TODO: Mieti tämä ja testaa
                   
                   console.dir(error);              
               }
-        )
+        ).then((json) => {
+                players.push(json);
+                this.updatePlayerState(players);
+               
+        })
     }
+    
     
 //    componentDidMount() {
 //        
 //      }
     
+    updatePlayerState(players) {
+        this.setState({"players" : players,
+                       "playerList" : this.getPlayerList(players)});
+    }    
     
-    render() {
-        const playerList = this.getPlayerList(this.state.players);        
+    render() {                
         return (
           <div>
               <div>
                 <button className="button" onClick={this.handleResetPlayers}>
                     Poista Pelaajat
                 </button>
-                <button className="button" onClick={() => alert('start')}>
+                <button className="button" onClick={this.handleStartGame}>
                     Aloita Peli
                 </button>
               </div>
               <AddPlayerForm handleSubmit={this.handleSubmit.bind(this)}
                   i={this.state.players.length+1}/>
-              {playerList}
+              {this.state.playerList}
           </div>          
         );
         
@@ -190,6 +220,14 @@ class AddPlayers extends React.Component {
 		</div>
 		);		
 	}	
+	
+//	componentDidUnmount() {
+//            ReactDOM.render(
+//              <GamePlay players={this.state.players} />,
+//              document.getElementById('content')
+//            );
+//         
+//	}
 }
 
 
