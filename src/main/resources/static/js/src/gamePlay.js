@@ -79,6 +79,8 @@ class GamePlay extends React.Component {
                 return response.json();
             }).then((json) => {
                 players = json;
+                for(let i=0; i<players.length; i++)
+                    players[i].holes[0].par = this.state.par;
                 this.setState({
                     "hole" : players[0].holes.length,
                     "players" : players
@@ -90,7 +92,8 @@ class GamePlay extends React.Component {
         
     
     handleEndGame(event) {
-        if(true == confirm("Tallennetaanko myös tämän väylän tulos?"))
+//        if(true == confirm("Tallennetaanko myös tämän väylän tulos?"))
+        
             fetch("nextHole", {
                 method: "POST",
                 headers: { 
@@ -107,9 +110,9 @@ class GamePlay extends React.Component {
                         //TODO
                     }
             )
-        else
-            ReactDOM.render(<Results />,
-                         document.getElementById('content'));
+//        else
+//            ReactDOM.render(<Results />,
+//                         document.getElementById('content'));
     }
     
     handleNextHole(event) {
@@ -140,13 +143,20 @@ class GamePlay extends React.Component {
     }
     
     handleParDec(event) {
-        if(1 < this.state.par)
-            this.setState({"par": this.state.par-1});
+        if(1 < this.state.par) {
+            let newPar = this.state.par-1;
+            this.setState({"par": newPar});
+            this.playersSetPar(newPar);
+        }
     }
     
     handleParInc(event) {
-        this.setState({"par": this.state.par+1});
+        let newPar = this.state.par+1;
+        
+        this.setState({"par": newPar});
+        this.playersSetPar(newPar);
     }
+    
     handleScoreChange(i,val) {
         let players = this.state.players.slice(0);
         if(0 < val) {
@@ -163,12 +173,23 @@ class GamePlay extends React.Component {
         let i;
         
         for(i in players) {
-            let hole = players[i].holes.slice(0,1)[0];
+            //let hole = players[i].holes.slice(0,1)[0];
+            let hole = Object.create(players[i].holes.slice(0,1)[0]);
             hole.par = 3;
             hole.score = 0;
             hole.scorePar = 0;
             players[i].holes.push(hole);
         }
+    }
+    
+    playersSetPar(par) {
+        let players = this.state.players.slice(0);
+        let i;
+        
+        for(i=0;i<players.length;i++)
+            players[i].holes[this.state.hole-1].par = par;
+        
+        this.setState({"players" : players});
     }
     
     render() {
