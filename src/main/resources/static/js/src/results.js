@@ -1,7 +1,10 @@
 class HoleResultsHeaderRow extends React.Component {
     render() {
         return(
-                <td>{this.props.player.name}</td>
+                <td>
+                    Väylä {this.props.index} <br />
+                    Par {this.props.hole.par}
+                </td>
         );
     }
 }
@@ -29,8 +32,8 @@ class HoleRow extends React.Component {
         let playerData=[];
         let data;
         
-        for(let i=0; i<players.length; i++) {
-            data = <td key={(i).toString()}>{this.props.players[i].holes[holeIndex].scorePar}</td>
+        for(let i=0; i<players[this.props.index].holes.length; i++) {
+            data = <td key={(i).toString()}>{this.props.players[this.props.index].holes[i].scorePar}</td>
             playerData.push(data);
         }
         
@@ -41,8 +44,7 @@ class HoleRow extends React.Component {
     render() {
         return(
                 <tr>
-                    <td>{(this.props.index+1).toString()}.</td>
-                    <td>{(this.props.hole.par).toString()}</td>
+                    <td>{this.props.players[this.props.index].name}</td>
                     {this.state.playerData}
                 </tr>
         );
@@ -52,16 +54,20 @@ class HoleRow extends React.Component {
 class HoleResults extends React.Component {
     
     constructor(props) {
+        console.log('holeresults constructor');
         super(props);
         this.state = {"holeResults" : this.getHoleResults(this.props.players)};
     }
     
     getHoleResults(players) {
+        console.log('getHoleresuls');
         let holeResults = [];
         let holeResultRow;
-        for(let i=0; i< players[0].holes.length ;i++) {
-            console.dir(players[0].holes[i]);
-            holeResultRow = <HoleRow key={i} index={i} players={players} hole={players[0].holes[i]} />;
+        for(let i=0; i< players.length ;i++) {
+//            console.dir(players[0].holes[i]);
+            holeResultRow = <HoleRow key={i} index={i} players={players} />;
+            console.log('row: ' + holeResultRow);
+            console.dir(holeResultRow);
             holeResults.push(holeResultRow);
         }            
             
@@ -69,7 +75,7 @@ class HoleResults extends React.Component {
     }    
     
     render() {  
-        
+        console.log('holeresults render');
         return(this.state.holeResults);
     }
 }
@@ -110,14 +116,18 @@ class Results extends React.Component {
     }
     
     getHoleResultsHeader(players) {
-        let holeResultsHeader = players.map((player,index) => {
+        console.log('hole results header');
+        let holeResultsHeader = players[0].holes.map((hole,index) => {
                             return <HoleResultsHeaderRow key={index.toString()}
-                                                  player={player} />
+                                                  index={(index+1).toString()}
+                                                  hole={hole} />
                          });        
         return(holeResultsHeader);
     }
     
     getHoleResults(players) {
+        console.log('hole results');
+        console.dir(players);
         return(<HoleResults players={players} />);
     }
     
@@ -150,8 +160,7 @@ class Results extends React.Component {
     		        <table>
                     <thead>
                         <tr>
-                            <td>Väylä</td>
-                            <td>Par</td>
+                            <td>Nimi</td>
                             {this.state.holeResultsHeader}
                         </tr>
                     </thead>
@@ -163,6 +172,10 @@ class Results extends React.Component {
 		);
 	}
 }
+
+
+
+
 
 //$(function(){
 //	initialisePage()
