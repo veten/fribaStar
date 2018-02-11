@@ -1,10 +1,10 @@
 class HoleResultsHeaderRow extends React.Component {
     render() {
         return(
-                <td>
+                <th className="text-center">
                     Väylä {this.props.index} <br />
                     Par {this.props.hole.par}
-                </td>
+                </th>
         );
     }
 }
@@ -15,7 +15,7 @@ class ResultRow extends React.Component {
           <tr>
               <td>{(this.props.index+1).toString()}.</td>
               <td>{this.props.player.name}</td>
-              <td>{this.props.player.totalPar}</td>
+              <td className="text-center">{this.props.player.totalPar}</td>
           </tr>
         );
     }
@@ -33,7 +33,7 @@ class HoleRow extends React.Component {
         let data;
         
         for(let i=0; i<players[this.props.index].holes.length; i++) {
-            data = <td key={(i).toString()}>{this.props.players[this.props.index].holes[i].scorePar}</td>
+            data = <td className="text-center" key={(i).toString()}>{this.props.players[this.props.index].holes[i].scorePar}</td>
             playerData.push(data);
         }
         
@@ -144,23 +144,23 @@ class Results extends React.Component {
 		return(
 		        <div>
     		        <h1>Tulokset</h1>
-    		        <table>
+    		        <table className="table table-striped">
     		            <thead>
-    		                <tr>
-    		                    <td>Sijoitus</td>
-    		                    <td>Nimi</td>
-    		                    <td>Tulos</td>
+    		                <tr className="info">
+    		                    <th>Sijoitus</th>
+    		                    <th>Nimi</th>
+    		                    <th className="text-center">Tulos</th>
     		                </tr>
     		            </thead>
     		            <tbody>
     		                {this.state.resultsList}
                         </tbody>
     		        </table>
-    		        <h1>Väylätulokset </h1>
-    		        <table>
+    		        <h1 style={{marginTop : '25px'}}>Väylätulokset </h1>
+    		        <table className="table table-striped">
                     <thead>
-                        <tr>
-                            <td>Nimi</td>
+                        <tr className="info">
+                            <th>Nimi</th>
                             {this.state.holeResultsHeader}
                         </tr>
                     </thead>
