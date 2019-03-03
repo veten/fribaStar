@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 @ComponentScan
-public class FribaViewConfiguration extends WebMvcConfigurerAdapter 
+public class FribaConfigurationView extends WebMvcConfigurerAdapter 
 {	
 	//See WebMvcAutoConfiguration addResourceHandlers for reference 
 	//See WebMvcConfigurationSupport for @EnableWebMvc configuration
